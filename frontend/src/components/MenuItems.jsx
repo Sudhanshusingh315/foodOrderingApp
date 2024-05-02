@@ -21,18 +21,20 @@ export default function MenuItems() {
 
   // second task is to get the array from the origal menu_list
   useEffect(() => {
-  "inside use effect"
+    "inside use effect";
     newFilterItem();
   }, [category]);
 
   function newFilterItem() {
-    if(category.length>0){
-      let newData = category.map((item)=>{
-        let tempResult = food_list.filter((el)=>{ return el.category===item})
+    if (category.length > 0) {
+      let newData = category.map((item) => {
+        let tempResult = food_list.filter((el) => {
+          return el.category === item;
+        });
         return tempResult;
-      })
+      });
       setShowFitlerData(newData.flat());
-    }else{
+    } else {
       setShowFitlerData(food_list);
     }
   }
@@ -55,7 +57,11 @@ export default function MenuItems() {
                   onClick={() => {
                     handleCategory(item.menu_name);
                   }}
-                  className="w-20 h-20  overflow-hidden p-1 border-4 rounded-full active:border-orange-600 active:p-2"
+                  className={
+                    category.includes(item.menu_name)
+                      ? "w-20 h-20  overflow-hidden p-1 border-4 rounded-full borded-2 border-orange-500"
+                      : "w-20 h-20  overflow-hidden p-1 border-4 rounded-full "
+                  }
                 >
                   <img
                     src={item.menu_image}
@@ -70,6 +76,8 @@ export default function MenuItems() {
         </div>
       </div>
       <hr className="container my-6" />
+
+      {/* food grid is here */}
       <FoodGrid showFilterData={showFilterData} />
     </>
   );
