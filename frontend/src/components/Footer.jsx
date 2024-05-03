@@ -3,7 +3,7 @@ import { assets } from "../assets/food del assets/frontend_assets/assets";
 export default function Footer() {
   return (
     <>
-      <div className="container grid grid-cols-4 min-h-36 py-8 px-4 bg-gray-800 mt-4  gap-2 lg:gap-4 rounded-tr-3xl rounded-tl-3xl">
+      <div className="container grid grid-cols-4 min-h-36 py-8 px-4 bg-gray-800 mt-4  gap-2 lg:gap-4 rounded-tr-3xl rounded-tl-3xl ">
         <div className="col-span-2 flex justify-center items-start flex-col">
           <div>
             <img src={assets.logo} alt="" className="w-40 min-h-4 my-2" />

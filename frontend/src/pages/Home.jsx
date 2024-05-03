@@ -2,6 +2,7 @@ import { useState } from "react";
 import { assets } from "../assets/food del assets/frontend_assets/assets";
 import MenuItems from "../components/MenuItems";
 import FoodGrid from "../components/FoodGrid";
+import Footer from "../components/Footer";
 export default function Home() {
   return (
     <>
@@ -23,6 +24,8 @@ export default function Home() {
       <hr className="my-6 container" />
       {/* menu items component */}
       <MenuItems />
+
+      <Footer />
     </>
   );
 }
