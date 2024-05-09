@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 export default function Sidebar({ children }) {
   return (
-    <div className="container flex sectionHeight">
+    <div className="container flex h-full">
       <div className=" min-w-[30%] max-w-[30%] flex flex-col gap-4 text-white  bg-orange-100 overflow-auto ">
         <NavLink
           to="/add"
