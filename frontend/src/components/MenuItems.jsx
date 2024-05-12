@@ -69,7 +69,7 @@ export default function MenuItems() {
                     className="w-100 h-100 object-cover "
                   />
                 </div>
-                <p className="md:text-xl">{item.menu_name}</p>
+                <p className="md:text-xl ">{item.menu_name}</p>
               </div>
             );
           })}

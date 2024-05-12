@@ -18,7 +18,8 @@ export default function FoodGrid({ showFilterData }) {
                   alt="/"
                   className="w-100 h-100 object-cover"
                 />
-                <p className="w-7 h-7 bg-orange-500 text-white absolute bottom-0 right-0 mb-2 mr-4 flex justify-center items-center rounded-full p-2 hover:bg-orange-600">
+                <p className="w-9 h-9 bg-orange-500 text-white absolute bottom-0 right-0 mb-2 mr-4 flex justify-center items-center rounded-full  hover:bg-orange-600">
+                  {/* cart svg */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
@@ -35,10 +36,10 @@ export default function FoodGrid({ showFilterData }) {
               </div>
               <div className="  w-[100%] px-6 py-4">
                 <div className="flex justify-between  gap-2 my-2  items-center">
-                  <div className=" font-semibold font-mono ">{items.name}</div>
+                  <div className=" font-semibold font-mono text-gray-800 ">{items.name}</div>
                   <div>
-                    Cate:{" "}
-                    <span className="font-semibold text-orange-500">
+                    cate:{" "}
+                    <span className="font-semibold text-orange-700">
                       {items.category}
                     </span>
                   </div>

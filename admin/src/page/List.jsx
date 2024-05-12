@@ -6,9 +6,7 @@ export default function List() {
   useEffect(() => {
     (async function name() {
       let { data } = await axios.get("/api/food/"); // setFoodList(data);
-			const moreData = [...data.foodList,...data.foodList];
-      // setFoodList(data.foodList);
-      setFoodList(moreData);
+      setFoodList(data.foodList);
     })();
   }, []);
   console.log(foodList);

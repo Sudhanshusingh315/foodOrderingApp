@@ -1,9 +1,8 @@
 const routes = require('express').Router();
+const userController = require('../controllers/userController');
 
-routes.get("/",(req,res)=>{
-    res.send("working fine")
-})
+routes.post('/login',userController.login);
 
-
+routes.post('/register',userController.register);
 
 exports.routes = routes;
