@@ -8,17 +8,17 @@ exports.login = async (req, res) => {
     if (!userExists) {
       throw new Error("Email is not registered");
     }
-    if(userExists && await userExists.matchPassword(password)){
-
-        const data = { email, id: userExists._id };
-        const token = await generatingToken(data);
-        res.status(201).json({
-          success: true,
-          message: "logged in",
-          accessToken: token,
-        });
-    }else{
-        throw new Error("Email or Password invalid")
+    if (userExists && (await userExists.matchPassword(password))) {
+      const data = { email, id: userExists._id };
+      const token = await generatingToken(data);
+      res.status(201).json({
+        success: true,
+        message: "logged in",
+        name: userExists.name,
+        accessToken: token,
+      });
+    } else {
+      throw new Error("Email or Password invalid");
     }
   } catch (err) {
     res.status(401).json({
@@ -47,6 +47,7 @@ exports.register = async (req, res) => {
       success: true,
       msg: "user created successfully",
       accessToken: token,
+      name: name,
     });
   } catch (err) {
     res.status(401).json({
