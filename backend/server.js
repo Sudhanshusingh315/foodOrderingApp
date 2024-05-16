@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const userRotuer = require("./routes/userRoutes");
 const foodRouter = require("./routes/foodRoutes");
-const menuRouter = require("./routes/menuRoutes")
+const menuRouter = require("./routes/menuRoutes");
+const cartRouter = require("./routes/cartRoutes");
 const port = process.env.PORT;
 const app = express();
 
@@ -33,6 +34,9 @@ app.use("/api/food", foodRouter.routes);
 
 // menu routes
 app.use('/api/menu',menuRouter.routes);
+
+// cart routes
+app.use('/api/cart',cartRouter.routes);
 
 // Rest
 app.listen(port, () => {

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { assets } from "../assets/food del assets/frontend_assets/assets";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 export default function NavBar() {
   const { pathname } = useLocation();
-  console.log(pathname);
+  const userInfo = useSelector((state)=>state.auth.userInfo)
+  console.log("userInfo:",userInfo);
   return (
     <>
       <div className="container flex justify-between items-center  my-2 gap-4 h-16 ">
@@ -64,7 +66,7 @@ export default function NavBar() {
             </NavLink>
             {/* sign in */}
             <button className="px-4 py-2 bg-orange-600 overflow-hidden whitespace-nowrap text-ellipsis   text-white font-semibold rounded-lg">
-              Sign In
+              {userInfo ? "name":"Singin"}
             </button>
           </div>
         </div>
