@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { assets } from "../assets/food del assets/frontend_assets/assets";
 import MenuItems from "../components/MenuItems";
-import FoodGrid from "../components/FoodGrid";
+import { fetchFoodAsyn } from "../features/foodList/foodSlice";
 import Footer from "../components/Footer";
+import { useDispatch, useSelector } from "react-redux";
 export default function Home() {
+  const dispatch = useDispatch();
+  const { foodItem, isLoading } = useSelector((state) => state.food);
+  useEffect(() => {
+    dispatch(fetchFoodAsyn());
+  }, [dispatch]);
   return (
     <>
       <div className="container min-h-20 max-h-auto relative overflow-hidden rounded-2xl">
@@ -23,7 +29,11 @@ export default function Home() {
       </div>
       <hr className="my-6 container" />
       {/* menu items component */}
-      <MenuItems />
+      {isLoading ? (
+        <div>Loading....</div>
+      ) : (
+        <MenuItems foodItem={foodItem} isLoading={isLoading} />
+      )}
 
       <Footer />
     </>

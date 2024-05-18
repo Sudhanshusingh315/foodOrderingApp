@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { menu_list } from "../assets/food del assets/frontend_assets/assets";
-import { food_list } from "../assets/food del assets/frontend_assets/assets";
 import FoodGrid from "./FoodGrid";
-export default function MenuItems() {
+
+export default function MenuItems({ foodItem, isLoading }) {
   const [category, setCategory] = useState([]);
   const [filterItems, setFilterItesm] = useState(menu_list);
-  const [showFilterData, setShowFitlerData] = useState(food_list);
-
+  const [showFilterData, setShowFitlerData] = useState(foodItem);
   // first task is to fill the category array;
   const handleCategory = (selectedCategory) => {
     if (category.includes(selectedCategory)) {
@@ -28,16 +27,17 @@ export default function MenuItems() {
   function newFilterItem() {
     if (category.length > 0) {
       let newData = category.map((item) => {
-        let tempResult = food_list.filter((el) => {
+        let tempResult = foodItem.filter((el) => {
           return el.category === item;
         });
         return tempResult;
       });
       setShowFitlerData(newData.flat());
     } else {
-      setShowFitlerData(food_list);
+      setShowFitlerData(foodItem);
     }
   }
+
   return (
     <>
       <div className="container">
@@ -78,7 +78,11 @@ export default function MenuItems() {
       <hr className="container my-6" />
 
       {/* food grid is here */}
-      <FoodGrid showFilterData={showFilterData} />
+      {isLoading ? (
+        <div>Loading..</div>
+      ) : (
+        <FoodGrid showFilterData={showFilterData} />
+      )}
     </>
   );
 }

@@ -6,7 +6,7 @@ export default function Cart() {
   return (
     <>
       <div className="container min-h-screen">
-        <div className="py-10 uppercase text-center font-bold text-2xl ">
+        <div className="py-10 uppercase text-center font-bold lg:text-4xl text-xl ">
           shopping cart
         </div>
         <div className="sm:grid sm:grid-cols-5 sm:grid-rows-4 gap-4">

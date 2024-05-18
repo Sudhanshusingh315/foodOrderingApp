@@ -65,9 +65,9 @@ export default function NavBar() {
               )}
             </NavLink>
             {/* sign in */}
-            <button className="px-4 py-2 bg-orange-600 overflow-hidden whitespace-nowrap text-ellipsis   text-white font-semibold rounded-lg">
+            <Link to='/login' className="px-4 py-2 bg-orange-600 overflow-hidden whitespace-nowrap text-ellipsis   text-white font-semibold rounded-lg">
               {userInfo ? "name":"Singin"}
-            </button>
+            </Link>
           </div>
         </div>
       </div>
