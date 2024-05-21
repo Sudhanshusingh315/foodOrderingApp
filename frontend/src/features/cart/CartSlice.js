@@ -25,8 +25,10 @@ export const cartAddItems = createAsyncThunk(
   async (itemId) => {
     try {
       const respones = await addItemsToCart(itemId);
-      return respones.success;
-      // need to return the response
+      console.log(respones);
+      // return respones.success;
+      console.log(respones.newCart.cart);
+      return respones.newCart.cart;
     } catch (err) {
       console.log(err.message);
     }
@@ -37,8 +39,8 @@ export const deleteCarteItemsAsync = createAsyncThunk(
   "cart/deleteAsync",
   async (itemId) => {
     try {
-      const deletedId = await deleteFromCart(itemId);
-      return deletedId;
+      const response = await deleteFromCart(itemId);
+      return response;
       // need to return the response
     } catch (err) {
       console.log(err.message);
@@ -102,9 +104,23 @@ export const cartSlice = createSlice({
         });
         state.cartItems = newCart;
       })
+      .addCase(deleteCarteItemsAsync.pending, (state) => {
+        state.isLoading = false;
+        state.isError = false;
+      })
       .addCase(deleteCarteItemsAsync.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
+        state.cartItems = action.payload;
+      })
+      .addCase(cartAddItems.pending, (state) => {
+        // state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(cartAddItems.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.cartItems = action.payload;
       });
   },
 });

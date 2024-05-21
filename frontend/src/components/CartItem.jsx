@@ -1,29 +1,28 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteCarteItemsAsync, deletingParticulateItemAync, cartAddItems } from "../features/cart/CartSlice";
-export default function CartItem({ food_list }) {
+export default function CartItem({ item }) {
+  let food_list = item?.foodId;
   const dispatch = useDispatch();
-  const [qyt, setQyt] = useState(1);
-  const handleDecreate = (itemId) => {
-    if (qyt > 1) {
-      setQyt((prev) => prev - 1)
+  const handleDecreate = (e, itemId) => {
+    e.preventDefault();
+    if (item.quantity > 1) {
       dispatch(deleteCarteItemsAsync(itemId));
     }
     else {
       dispatch(deletingParticulateItemAync(itemId));
     }
   }
-  const handleIncrease = (itemId) => {
-    if (qyt >= 1) {
-      setQyt((prev) => prev + 1)
+  const handleIncrease = (e, itemId) => {
+    e.preventDefault();
+    if (item.quantity >= 1) {
       dispatch(cartAddItems(itemId))
     }
   }
   const handleRemove = (itemId) => {
     dispatch(deletingParticulateItemAync(itemId))
-    console.log("deleting item")
   }
-  console.log(qyt);
+
   return (
     <>
       <div className="flex flex-col min-w-full shadow-lg mx-auto col-span-3 rounded-xl h-[100%]">
@@ -76,14 +75,20 @@ export default function CartItem({ food_list }) {
             {/* quantity and price */}
             <div className="flex gap-2 justify-between">
               <div className="sm:w-32 w-24 flex justify-start sm:justify-between gap-2">
-                <p onClick={() => { handleDecreate(food_list._id) }} className="sm:w-7 sm:h-7 w-5 h-5 border-2 rounded-full bg-red-300 flex justify-center items-center select-none">
-                  <span className="text-red-900">-</span>
+                <p onClick={(e) => { handleDecreate(e, food_list._id) }} className="sm:w-7 sm:h-7 w-5 h-5 border-2 rounded-full bg-red-300 flex justify-center items-center select-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-red-900">
+                    <path fillRule="evenodd" d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
+                  </svg>
+
                 </p>
                 <p className="sm:w-7 sm:h-7 w-5 h-5 rounded-full flex justify-center items-center bg-white font-semibold text-orange-800">
-                  {qyt}
+                  {item.quantity}
                 </p>
-                <p onClick={() => { handleIncrease(food_list._id) }} className="sm:w-7 sm:h-7 w-5 h-5 rounded-full bg-green-300 place-content-center flex">
-                  <span className="text-green-900">+</span>
+                <p onClick={(e) => { handleIncrease(e, food_list._id) }} className="sm:w-7 sm:h-7 w-5 h-5 rounded-full bg-green-300 justify-center items-center  flex">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-green-900 ">
+                    <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
+                  </svg>
+
                 </p>
               </div>
               <div className="text-nowrap text-white font-semibold">

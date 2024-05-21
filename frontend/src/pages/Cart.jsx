@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { food_list } from "../assets/food del assets/frontend_assets/assets";
 import CartItem from "../components/CartItem";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,9 +7,16 @@ import { fetchCartItemsAsync } from "../features/cart/CartSlice";
 export default function Cart() {
   const dispatch = useDispatch();
   const { cartItems, isLoading } = useSelector((state) => state.cart)
+  let sum;
+  isLoading ? "" : sum = cartItems.reduce((acc, cur) => {
+    let price = cur.foodId.price * cur.quantity;
+    acc += price;
+    return acc;
+  }, 0)
   useEffect(() => {
     dispatch(fetchCartItemsAsync())
   }, [dispatch])
+
   return (
     <>
       <div className="container max-h-96 ">
@@ -17,13 +24,12 @@ export default function Cart() {
           shopping cart
         </div>
 
-        {isLoading ? <div>loading.....</div> : <div className="sm:grid sm:grid-cols-5 sm:grid-rows-4 gap-4 min-h-96 flex-shrink-0">
+        {isLoading ? <div>im loading this.....</div> : <div className="sm:grid sm:grid-cols-5 sm:grid-rows-4 gap-4 min-h-96 flex-shrink-0">
           {/* TODO: make this a seprate component and pass the data through props */}
           {/* TODO: make this overflow scrollable [important] */}
           {
-            cartItems.map((item, index) => {
-              let foodDetails = item.foodId;
-              return < CartItem food_list={foodDetails} />
+            cartItems?.map((item, index) => {
+              return <Fragment key={index}> <CartItem item={item} /> </Fragment>
             })
           }
           {/* Page checkout section */}
@@ -32,7 +38,7 @@ export default function Cart() {
             <div className="px-2 flex flex-col gap-2">
               <div className="flex justify-between items-center w-full ">
                 <div className="text-gray-600">Subtotal:</div>
-                <div className="text-gray-800">5</div>
+                <div className="text-gray-800">${sum}</div>
               </div>
               <hr />
               <div className="flex justify-between items-center">
@@ -42,7 +48,7 @@ export default function Cart() {
               <hr />
               <div className="flex justify-between items-center">
                 <div className="font-extrabold text-xl">Total:</div>
-                <div>23</div>
+                <div>${sum}</div>
               </div>
             </div>
             <button className="py-2 px-4 rounded-lg bg-orange-800 text-white font-semibold hover:bg-orange-200 hover:text-black ">

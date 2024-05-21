@@ -8,6 +8,7 @@ routes.get("/showCart", protected, cartController.getCartItem);
 routes.delete("/deleteFromCart", protected, cartController.deleteWholeCart);
 // delete only items
 routes.patch("/deleteSpecific", protected, cartController.updateCart);
+// delete the who item from the cart when quant goes below one
 routes.patch(
   "/deletingParticular",
   protected,

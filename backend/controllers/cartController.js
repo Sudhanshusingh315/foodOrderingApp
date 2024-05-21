@@ -19,10 +19,18 @@ exports.addToCart = async (req, res) => {
     } else {
       updateingCart.cart[index].quantity += 1;
     }
-    await updateingCart.save();
+    const newCart = await (
+      await updateingCart.save()
+    ).populate({
+      path: "cart",
+      populate: {
+        path: "foodId",
+      },
+    });
     res.status(200).json({
       success: true,
       msg: "Item added to the cart",
+      newCart,
     });
     console.log(index);
   } catch (err) {
@@ -62,7 +70,7 @@ exports.deleteParticularItem = async (req, res) => {
     const { userId, itemId } = req.body;
     const updateCart = await User.findById({ _id: userId });
     let index = updateCart.cart.findIndex((p) => {
-      return (p.foodId.toString()) === itemId;
+      return p.foodId.toString() === itemId;
     });
     if (index === -1) {
       res.json("Item is not present in the cart");
@@ -100,19 +108,21 @@ exports.updateCart = async (req, res) => {
         msg: "Item is already removed from the cart",
       });
     }
-    // since you are removing the items, means it already exists and you should just decrese the quantity
-    // if (updateCart.cart[index].quantity === 1) {
-    //   // this removes the item from the cart itself
-    //   updateCart.cart.splice(index, 1);
-    // }
-    // else {
+
     updateCart.cart[index].quantity -= 1;
-    // }
-    await updateCart.save();
+    const newCart = await (
+      await updateCart.save()
+    ).populate({
+      path: "cart",
+      populate: {
+        path: "foodId",
+      },
+    });
     res.json({
       success: true,
       msg: "Item removed from the cart",
       deletedId: itemId,
+      newCart,
     });
     // if the quantity in less than 1 or 0, pop out that specific item
   } catch (err) {

@@ -22,7 +22,6 @@ export const fetchItemsFromCart = async () => {
       Authorization: "Bearer " + myToken?.accessToken,
     },
   });
-  console.log("cart api", data?.getItem);
   return data?.getItem;
 };
 
@@ -53,5 +52,5 @@ export const deleteFromCart = async (itemId) => {
       },
     }
   );
-  return itemId;
+  return data.newCart.cart;
 };
