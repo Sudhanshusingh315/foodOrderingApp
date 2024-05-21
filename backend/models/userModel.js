@@ -7,7 +7,17 @@ const userSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Food" ,default:[]}],
+  // cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Food", default: [] }],
+  cart: [
+    {
+      foodId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Food",
+        required: true,
+      },
+      quantity: { type: Number },
+    },
+  ],
 });
 
 userSchema.methods.matchPassword = async function (usePassword) {

@@ -1,14 +1,21 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { cartAddItems } from "../features/cart/CartSlice";
+import { useState } from "react";
 
 export default function FoodGrid({ showFilterData }) {
+  const [added, setAdded] = useState(false);
   const dispatch = useDispatch();
   console.log(showFilterData);
-  const addToCart = (item) => {
-    console.log(item);
-  };
-  const handleCart=(e,itemId)=>{
-    dispatch(cartAddItems(itemId))
+
+  // Add to cart dispatch
+  const handleCart = (e, itemId) => {
+    dispatch(cartAddItems(itemId)).then((res) => {
+      if(res.payload){
+        setAdded(true);
+      }
+    }).catch((err) => {
+      console.log(err.message);
+    })
   }
   return (
     <>
@@ -28,13 +35,13 @@ export default function FoodGrid({ showFilterData }) {
                   alt="/"
                   className="w-100 h-100 object-cover"
                 />
-                <p onClick={(e)=>{handleCart(e,items._id)}} className="w-9 h-9 bg-orange-700 text-white absolute bottom-0 right-0 mb-2 mr-4 flex justify-center items-center rounded-full  hover:bg-orange-600">
+                <p onClick={(e) => { handleCart(e, items._id) }} className="w-9 h-9 shadow-lg bg-orange-700 text-white absolute bottom-0 right-0 mb-2 mr-4 flex justify-center items-center rounded-full  hover:bg-orange-600">
                   {/* cart svg */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
-                    className="w-6 h-6"
+                    className="w-6 h-6 shadow-lg"
                   >
                     <path
                       fillRule="evenodd"

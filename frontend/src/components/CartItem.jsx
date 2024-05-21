@@ -1,14 +1,37 @@
-import { food_list } from "../assets/food del assets/frontend_assets/assets";
-
-export default function CartItem() {
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteCarteItemsAsync, deletingParticulateItemAync, cartAddItems } from "../features/cart/CartSlice";
+export default function CartItem({ food_list }) {
+  const dispatch = useDispatch();
+  const [qyt, setQyt] = useState(1);
+  const handleDecreate = (itemId) => {
+    if (qyt > 1) {
+      setQyt((prev) => prev - 1)
+      dispatch(deleteCarteItemsAsync(itemId));
+    }
+    else {
+      dispatch(deletingParticulateItemAync(itemId));
+    }
+  }
+  const handleIncrease = (itemId) => {
+    if (qyt >= 1) {
+      setQyt((prev) => prev + 1)
+      dispatch(cartAddItems(itemId))
+    }
+  }
+  const handleRemove = (itemId) => {
+    dispatch(deletingParticulateItemAync(itemId))
+    console.log("deleting item")
+  }
+  console.log(qyt);
   return (
     <>
-      <div className="flex flex-col min-w-full shadow-md mx-auto col-span-3 rounded-xl h-[100%]">
-        <div className="w-full min-h-14 max-h-auto bg-orange-600 rounded-xl overflow-hidden grid grid-cols-3 gap-2">
+      <div className="flex flex-col min-w-full shadow-lg mx-auto col-span-3 rounded-xl h-[100%]">
+        <div className="w-full min-h-14 max-h-auto hover:border-orange-800 border-b-2 bg-orange-500 rounded-xl overflow-hidden grid grid-cols-3 gap-2 ease-in-out duration-200">
           {/* for image */}
           <div className="w-full h-100 overflow-hidden rounded-xl">
             <img
-              src={food_list[0].image}
+              src={food_list?.image}
               alt="/"
               className="w-[100%] h-[100%] object-cover"
             />
@@ -17,10 +40,10 @@ export default function CartItem() {
           <div className="col-start-2 col-end-4 flex flex-col  justify-around px-4 py-2 gap-2">
             {/* name and delete button */}
             <div className="flex justify-between items-center gap-2">
-              <p className="md:text-3xl text-white font-semibold lg:text-4xl ">
-                {food_list[0].name}
+              <p className="md:text-xl text-white font-semibold lg:text-3xl">
+                {food_list?.name}
               </p>
-              <p>
+              <p onClick={() => { handleRemove(food_list._id) }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -53,18 +76,18 @@ export default function CartItem() {
             {/* quantity and price */}
             <div className="flex gap-2 justify-between">
               <div className="sm:w-32 w-24 flex justify-start sm:justify-between gap-2">
-                <p className="sm:w-7 sm:h-7 w-5 h-5 border-2 rounded-full bg-red-300 flex justify-center items-center">
+                <p onClick={() => { handleDecreate(food_list._id) }} className="sm:w-7 sm:h-7 w-5 h-5 border-2 rounded-full bg-red-300 flex justify-center items-center select-none">
                   <span className="text-red-900">-</span>
                 </p>
                 <p className="sm:w-7 sm:h-7 w-5 h-5 rounded-full flex justify-center items-center bg-white font-semibold text-orange-800">
-                  {3}
+                  {qyt}
                 </p>
-                <p className="sm:w-7 sm:h-7 w-5 h-5 rounded-full bg-green-300 place-content-center flex">
+                <p onClick={() => { handleIncrease(food_list._id) }} className="sm:w-7 sm:h-7 w-5 h-5 rounded-full bg-green-300 place-content-center flex">
                   <span className="text-green-900">+</span>
                 </p>
               </div>
               <div className="text-nowrap text-white font-semibold">
-                ${food_list[0].price}
+                ${food_list?.price}
               </div>
             </div>
           </div>
