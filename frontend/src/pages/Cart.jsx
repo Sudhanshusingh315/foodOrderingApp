@@ -1,10 +1,13 @@
 import { Fragment, useEffect } from "react";
 import { food_list } from "../assets/food del assets/frontend_assets/assets";
 import CartItem from "../components/CartItem";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCartItemsAsync } from "../features/cart/CartSlice";
+import { initiatingCheckout, getAPIkey } from "../features/payments/paymentSlice";
 // TODO: add redux state here, for testing purposes foodlist in added here
 export default function Cart() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { cartItems, isLoading } = useSelector((state) => state.cart)
   let sum;
@@ -17,6 +20,43 @@ export default function Cart() {
     dispatch(fetchCartItemsAsync())
   }, [dispatch])
 
+  // handler for payments
+  const checkoutHandler = async (sum) => {
+    const options = {
+      "currency": "INR",
+      "name": "Acme Corp",
+      "description": "Test Transaction",
+      "image": "https://example.com/your_logo",
+      "callback_url": navigate(-1),
+      "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000"
+      },
+      "notes": {
+        "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+        "color": "#3399cc"
+      }
+    };
+    console.log(sum);
+    dispatch(getAPIkey()).then((res) => {
+      return res.payload;
+    }).then((key) => {
+      dispatch(initiatingCheckout(sum)).then((orderId) => {
+        const { payload: { order: { id } } } = orderId;
+        console.log("order Id", id);
+        options.key = key;
+        options.order_id = id;
+        return options;
+      }).then((options) => {
+        console.log(options);
+        const rzp1 = new window.Razorpay(options);
+        rzp1.open();
+      })
+    })
+  }
   return (
     <>
       <div className="container max-h-96 ">
@@ -51,7 +91,7 @@ export default function Cart() {
                 <div>${sum}</div>
               </div>
             </div>
-            <button className="py-2 px-4 rounded-lg bg-orange-800 text-white font-semibold hover:bg-orange-200 hover:text-black ">
+            <button onClick={() => { checkoutHandler(sum) }} className="py-2 px-4 rounded-lg bg-orange-800 text-white font-semibold active:bg-orange-200 hover:text-black ">
               Proceed To Checkout
             </button>
           </div>
