@@ -49,6 +49,8 @@ app.use("/api/cart", cartRouter.routes);
 // paymetns routes
 app.use("/api/payments", paymetnRouter.routes);
 
+// 
+app.get('/',(req,res)=>{res.send("backend is up")})
 // Rest
 app.listen(port, () => {
   console.log(`Server is running at ${port}`);

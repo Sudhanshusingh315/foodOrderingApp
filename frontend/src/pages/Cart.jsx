@@ -24,20 +24,20 @@ export default function Cart() {
   const checkoutHandler = async (sum) => {
     const options = {
       "currency": "INR",
-      "name": "Acme Corp",
+      "name": "Tomato Food",
       "description": "Test Transaction",
-      "image": "https://example.com/your_logo",
-      "callback_url": navigate(-1),
+      "image": "https://firebasestorage.googleapis.com/v0/b/memorymatchinggame-25508.appspot.com/o/logo%2Fbubble.jpg?alt=media&token=353cf14a-3198-45f4-8bd2-12c64c83c8c7",
+      // "callback_url": navigate(-1),
       "prefill": {
-        "name": "Gaurav Kumar",
-        "email": "gaurav.kumar@example.com",
+        "name": "Tomato Food",
+        "email": "LeaderOfMeow@fake.com",
         "contact": "9000090000"
       },
       "notes": {
-        "address": "Razorpay Corporate Office"
+        "address": "Meow Town Office"
       },
       "theme": {
-        "color": "#3399cc"
+        "color": "#FF6600"
       }
     };
     console.log(sum);
