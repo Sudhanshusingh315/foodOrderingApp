@@ -2,8 +2,11 @@ const jwt = require("jsonwebtoken");
 // middleware for protection
 function protected(req, res, next) {
   try {
-    let token = req.headers.authorization;
+    let token = req.headers["authorization"];
     token = token.split(" ")[1];
+    if (token === null) {
+      throw new Error("can not find token, login again");
+    }
     if (!token) {
       throw new Error("Not Authorized, Login");
     }

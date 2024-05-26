@@ -67,35 +67,34 @@ exports.paymentVarification = async (req, res) => {
   if (validateWebhookSignature) {
     console.log("first");
     const { id, order_id, email, contact } = await schemaData;
-    console.log("after the await");
-    console.log("saving the details", id, order_id, email, contact);
 
-    // try {
-    //   console.log("done");
-    //   await Payment.create({
-    //     paymentId: id,
-    //     orderId: order_id,
-    //     userEmail: email,
-    //     contact: contact,
-    //   });
-    //   res.ok();
-    //   res.send("working");
-    // } catch (err) {
-    //   console.log(err.message);
-    //   res.status(200);
-    //   res.send("didn't work");
-    // }
-    // res.redirect('/')
-    // res.status(200).json({
-    //   success: true,
-    //   msg: "Payment verified",
-    // });
-    // clear the cart after the payment
+    try {
+      if (req.body.event === "order.paid") {
+        await Payment.create({
+          paymentId: id,
+          orderId: order_id,
+          userEmail: email,
+          contact: contact,
+        });
+        res.status(200);
+        res.send("working");
+      }
+      if (req.body.event === "payment.captured") {
+        res.status(200);
+      }
+      if (req.body.event === "payment.failed") {
+        res.status(200);
+        console.log("payment failed");
+      }
+    } catch (err) {
+      console.log(err.message);
+      res.status(200);
+      res.send("didn't work");
+    }
   } else {
     console.log("didn't work");
     res.status(200);
   }
-  console.log(arr);
 };
 
 // get key
