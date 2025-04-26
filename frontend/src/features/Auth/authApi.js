@@ -1,6 +1,7 @@
 import axios from "axios";
 import { baseConfig } from "../../const/constant";
 export const loginUser = async (userCredentials) => {
+    console.log("Base Url",baseConfig);
     const response = await axios.post(
         `${baseConfig.url}/api/user/login`,
         userCredentials
