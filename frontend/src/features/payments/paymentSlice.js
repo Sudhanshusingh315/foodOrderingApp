@@ -14,6 +14,7 @@ export const initiatingCheckout = createAsyncThunk(
   "payment/initiatingCheckout",
   async (amount) => {
     const response = await checkout(amount);
+    console.log("response",response);
     return response.data;
   }
 );
